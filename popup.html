@@ -1,0 +1,42 @@
+<style>
+    body {
+        width: 150px;
+    }
+
+    #add-new-item {
+        cursor: pointer;
+        color: #CCC;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .item {
+        cursor: pointer;
+        margin: 5px 0;
+    }
+
+    .item input {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+    }
+
+    input {
+        width: 120px;
+    }
+</style>
+<div id="add-new-item">添加新项</div>
+<button id="loginButton" class="button">获取内容</button>
+<div id="add-new-item-input" class="hide">
+    <input type="text" id="new-item-title" placeholder="添加新任务" />
+</div>
+
+<div id="item-list"></div>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="main.js"></script>
