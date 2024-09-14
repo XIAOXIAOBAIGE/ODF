@@ -2,7 +2,7 @@
     const data = {
         "3089": ['云朵白', '卡其肤', '经典黑', '茶褐色'],
         "029": ['黑色', '紫色', '绿色', '奶肤'],
-        "808": ["黑色","墨绿","肤色","桔红"],
+        "808": ["黑色", "墨绿", "肤色", "桔红"],
         "3008": ["黑色", "奶白", "咖啡", "卡其"],
         "218": ["气质黑", "奢华肤", "蒂芙蓝", "冰莓粉"],
         "0000": [] //未知
@@ -76,18 +76,22 @@
                 var code = document.createElement('h3');
                 code.textContent = key
                 document.getElementById('aaa').appendChild(code);
+                var total = 0
                 for (let item in resultData[key]) {
                     for (let items in resultData[key][item]) {
-                        console.log("lenyXXXXXXXXXX", resultData[key][item])
                         if (resultData[key][item][items].num) {
+                            total += resultData[key][item][items].num
                             var ele = document.createElement('div');
                             ele.textContent = resultData[key][item][items].code + "\u0020\u0020\u0020" + item + `码\u0020\u0020` + resultData[key][item][items].num + "件";
                             document.getElementById('aaa').appendChild(ele);
                         }
 
                     }
-                }
 
+                }
+                var nums = document.createElement('div');
+                nums.textContent = "总数量：" + total + "件"
+                document.getElementById('aaa').appendChild(nums);
             }
         })
         console.log("resultData", resultData)
