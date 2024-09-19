@@ -50,8 +50,14 @@
     var input = $('#ODFfilieInput')[0]
     input.addEventListener('change', function () {
         readXlsxFile(input.files[0]).then(rows => {
+            let errArrs = []
             for (let i = 1; i < rows.length; i++) { // 遍历表格内容
-                const nowCode = rows[i][1] || '0000'// 当前型号
+                if (!data[rows[i][1]]) {
+                    errArrs.push(rows[i])
+                    console.log("异常数据", rows[i][1])
+                    continue
+                }
+                const nowCode = rows[i][1]
                 if (resultData[nowCode] == undefined) {
                     resultData[nowCode] = {}
                 }
@@ -93,8 +99,21 @@
                 nums.textContent = "总数量：" + total + "件"
                 document.getElementById('aaa').appendChild(nums);
             }
+            if (errArrs.length) {
+                var code = document.createElement('h3');
+                code.textContent = '无法识别型号'
+                document.getElementById('errbox').appendChild(code);
+                for (let index = 0; index < errArrs.length; index++) {
+                    var ele = document.createElement('div');
+                    ele.textContent = (errArrs[index][1] || "未知") + "\u0020\u0020\u0020" + errArrs[index][4] + "\u0020 数量： \u0020" + errArrs[index][8]
+                        + "件"
+                    document.getElementById('errbox').appendChild(ele);
+                }
+            }
+
+            console.log("resultData", errArrs)
+
         })
-        console.log("resultData", resultData)
 
     })
 
