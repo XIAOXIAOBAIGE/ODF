@@ -1,6 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer" />
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <h3><i class="el-icon-box" style="color: #409EFF; font-size: larger; margin-right: 5px;"></i>
+            头弟风扇</h3>
+        <el-table :data="staticDataCp.slice((currentPage - 1) * pageSize, currentPage * pageSize)" style="width: 100%;"
+            height="800" :lazy="true">
+            <el-table-column label="ID" prop="ind" width="100">
+            </el-table-column>
+            <el-table-column label="型号1" prop="iId">
+            </el-table-column>
+            <el-table-column label="型号2" prop="name">
+            </el-table-column>
+            <el-table-column label="型号3" prop="itemName">
+            </el-table-column>
+            </el-table-column>
+            <el-table-column label="价格" prop="cusPrice" sortable>
+                <template slot-scope="scope">
+                    {{ scope.row.cusPrice }} 元
+                </template>
+            </el-table-column>
+            <el-table-column align="right">
+                <template slot="header" slot-scope="scope">
+                    <el-popover placement="top-start" title="快捷搜索" width="400" trigger="manual" v-model="visible">
+                        <span v-for="tag in keyData" :key="tag.name">
+                            <el-tag v-if="tag.name.indexOf(search)>-1" disable-transitions :type="tag.type"
+                                @click="tagClick(tag.name)">
+                                {{tag.name}}</el-tag>
+                        </span>
+
+                        <el-input ref="input" slot="reference" v-model="search" size="mini" placeholder="输入关键字搜索"
+                            @change="handleKeyUp" @focus="visible = true" @blur="visible = false" />
+                    </el-popover>
+
+                </template>
+                <template slot-scope="scope">
+                    <el-image lazy v-for="fit in scope.row.pics" :key="fit" style="height: 100px"
+                        :preview-src-list="scope.row.pics" :src="fit">
+                    </el-image>
+    </div>
+    </template>
+    </el-table-column>
+    </el-table>
+    <div>
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page="currentPage" :page-sizes="[10, 20, 50, 100]" :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper" :total="staticDataCp.length">
+        </el-pagination>
+    </div>
+    <div id="aaa">
+    </div>
+    <div id="errbox"></div>
+    </div>
+    </div>
+
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="./data.js"></script>
+
+<script type="module">
+    import {
+        staticData,
+        keyData
+    } from '/FUdata.js'
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                staticDataCp: staticData,
+                currentPage: 1,
+                keyData: keyData,
+                pageSize: 20,
+                search: '',
+                visible: false,
+            }
+        },
+
+        methods: {
+
+            // @size-change页码展示数量点击事件
+            handleSizeChange(val) {
+                // 更新每页展示数据size
+                this.pageSize = val
+            },
+
+            // @current-change页码点击事件
+            handleCurrentChange(val) {
+                // 更新当前页数是第几页
+                this.currentPage = val
+            },
+            handleKeyUp(e) {
+                
+                this.$refs.input.blur()
+                this.searchFun(e)
+            },
+            searchFun(tx) {
+                this.currentPage = 1
+                this.staticDataCp = staticData.filter(data => !tx || data.name.toLowerCase().includes(tx.toLowerCase()) || data.itemName.toLowerCase().includes(tx.toLowerCase()) || data.iId.toLowerCase().includes(tx.toLowerCase()))
+            },
+            tagClick(tx) {
+                this.search = tx
+                this.searchFun(tx)
+            }
+        }
+    })
+</script>
+<script type="text/javascript" src="jq.js"></script>
+<script type="text/javascript" src="read-excel-file.min.js"></script>
+<script type="text/javascript" src="pickingList.js"></script>
 <style>
     body {
-        width: 150px;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     }
 
     #errbox {
@@ -12,13 +133,17 @@
         color: red;
 
     }
+
+    .el-tag {
+        margin: 3px;
+        cursor: pointer;
+    }
+
+    .el-pagination {
+        margin-top: 15px;
+        float: right;
+        /* 将分页按钮放置在分页组件的右侧 */
+    }
 </style>
-oudifu备货单数据生成 只支持pdd备货单
-<input type="file" id="ODFfilieInput" />
-<div id="aaa">
-</div>
-<div id="errbox"></div>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="jq.js"></script>
-<script type="text/javascript" src="read-excel-file.min.js"></script>
-<script type="text/javascript" src="pickingList.js"></script>
+
+</html>
