@@ -31,6 +31,9 @@
     }
     const size = [{
             code: 'F',
+            index: 7
+        },{
+            code: '4XL',
             index: 6
         },
         {
