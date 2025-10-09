@@ -65,7 +65,7 @@
         "0000": [] //未知
     }
     const size = [{
-            code: 'F',llll
+            code: 'F',
             index: 7
         }, {
             code: '4XL',
